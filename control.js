@@ -33,17 +33,25 @@ var resetbtn = document.querySelector("#reset-btn");
 //     return `${minutes}:${seconds}:${milisecondsFormattted}`;
 // }
 
-var startTime;
+var m, s, min;
 var timeInterval;
 
 function startTimer() {
-    startTime = 0;
+    m = 0, s = 0, min = 0;
     timeInterval = setInterval(function() {
-        startTime++;
-        if (startTime == 100) {
-            startTime = 0;
+        m++;
+        if (m == 100) {
+            s++;
+            m = 0;
+            if (s == 60) {
+                min++;
+                s = 0;
+                if (min == 60) {
+                    resetTimer();
+                }
+            }
         }
-        console.log(startTime);
+        display.textContent = `${min}:${s}:${m}`;
     }, 10);
 
 }
@@ -51,6 +59,12 @@ function startTimer() {
 function stopTimer() {
     console.log("stop");
     clearInterval(timeInterval);
+}
+
+function resetTimer() {
+    stopTimer();
+    m = 0, s = 0, min = 0;
+    display.textContent = `0:0:00`;
 }
 
 starbtn.addEventListener("click", startTimer);
